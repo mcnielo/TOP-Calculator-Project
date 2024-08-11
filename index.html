@@ -5,31 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TOP Calculator</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" sizes="30x30" href="calcu.png">
+
 </head>
+
 <body>
     <div class="main__container">
         <div class="display__container">
+            <div class="display__chain"></div>
+            <hr class="separator">
+            <div class="display__main"></div>
         </div>
         <div class="button__container">
+            <button class="button" id="ac__button" data-value="clear">CLEAR</button>
+            <button class="button" id="c__button" data-value="delete">DELETE</button>
             <button class="button" data-value="7">7</button>
             <button class="button" data-value="8">8</button>
             <button class="button" data-value="9">9</button>
-            <button class="button" data-value="/">/</button>
+            <button class="button" data-value="/">&#247</button>
             <button class="button" data-value="4">4</button>
             <button class="button" data-value="5">5</button>
             <button class="button" data-value="6">6</button>
-            <button class="button" data-value="*">*</button>
+            <button class="button" data-value="x">&#215</button>
             <button class="button" data-value="1">1</button>
             <button class="button" data-value="2">2</button>
             <button class="button" data-value="3">3</button>
-            <button class="button" data-value="-">-</button>
+            <button class="button" data-value="-">&#45</button>
             <button class="button" data-value="0">0</button>
             <button class="button" data-value=".">.</button>
-            <button class="button" data-value="=">=</button>
-            <button class="button" data-value="+">+</button>
-            <button class="button" data-value="clear">CLEAR</button>
+            <button class="button" data-value="=">&#61</button>
+            <button class="button" data-value="+">&#43</button>
         </div>
     </div>
+    <footer>
+        <p>McAndrew Nielo &copy; <script>document.write( new Date().getFullYear() );</script></p>
+    </footer>
     
     <script src="script.js"></script>
 </body>

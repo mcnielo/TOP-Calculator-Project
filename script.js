@@ -25,7 +25,7 @@ function operate(a, b, operator) {
             return addition(a, b);
         case '-':
             return subtraction(a, b);
-        case '*':
+        case 'x':
             return multiplication(a, b);
         case '/':
             return division(a, b);
@@ -33,56 +33,88 @@ function operate(a, b, operator) {
             return 'Invalid operator';
     }
 }
+const buttons = document.querySelectorAll('.button');
+const display = document.querySelector('.display__container');
+const preview = document.querySelector('.display__chain');
+const main = document.querySelector('.display__main');
+
 
 let displayValue = '';
+let displayPreview = '';
 let a = null;
 let b = null;
 let operator = null;
-let z = 0;
+let equalsIsPressed = false;
 
-const buttons = document.querySelectorAll('.button');
-const display = document.querySelector('.display__container')
+
 
 buttons.forEach(button => {
     button.addEventListener('click', () => {
         const value = button.getAttribute('data-value');
 
-
+        // When the button pressed is a number
         if (!isNaN(value)) {
+            if (equalsIsPressed == true) {
+                displayValue = '';
+                b = null;
+                equalsIsPressed = false;
+            }
             displayValue += value;
-            display.textContent = displayValue;
-        } else if (value == '+') {
-            if (a == null) {
+            main.textContent = displayValue;
+
+        // When the button pressed is an operator
+        } else if (value == '+' || value == '-' || value == 'x' || value == '/') {
+            if (equalsIsPressed) {
+                operator = value;
+                displayPreview = a + ' ' + operator;
+                preview.textContent = displayPreview;
+                displayValue = '';
+                equalsIsPressed = false;
+            }  else if (a == null) {
                 a = parseFloat(displayValue);
                 operator = value;
+                displayValue = a;
+                displayPreview = a + ' ' + operator;
+                main.textContent = displayValue;
+                preview.textContent = displayPreview;
                 displayValue = '';
-                display.textContent = displayValue;
-            } else {
+            } else if  (b == null) {
+                b = parseFloat(displayValue);
+                a = operate(a, b, operator);
+                operator = value;
+                displayPreview = a + ' ' + operator;
+                displayValue = a;
+                main.textContent = displayValue;
+                preview.textContent = displayPreview;
+                displayValue = '';
+                b = null;
+            } 
 
-                display.textContent = b;
-            }
+
+        // When the button pressed is an equal sign
         } else if (value == '=') {
-            b = parseFloat(displayValue);
-            displayValue = operate(a, b, operator).toString();
-            display.textContent = displayValue;
-        }
-        // else if (['+', '-', '*', '/'].includes(value)) {
-        //     if (a === null) {
-        //         a = parseFloat(displayValue);
-        //         operator = value;
-        //         displayValue = '';
-        //         display.textContent = '';}
-        // //     } else {
-        // //         b = parseFloat(displayValue);
-        // //         display.textContent = b;
-        // //     }
-        // // } else if (value == '=') {
-        // //     b = parseFloat(displayValue);
+            if (b == null) {
+                b = parseFloat(displayValue);
+            }
+            preview.textContent = a + ' ' + operator + ' ' + b + ' ' + value;
+            a = operate(a, b, operator);
+            main.textContent = a;
+            operator = null;
+            b = null;
+            equalsIsPressed = true;
 
-        // //     if (a != null && b != null && operator != null) {
-        // //         displayValue = operate(a, b, operator).toString();
-        // //         display.textContent = displayValue;
-        // //     }
-        // // }
+        // When the button pressed is clear
+        } else if (value == 'clear') {
+            displayValue = '';
+            a = null;
+            b = null;
+            operator = null;
+            equalsIsPressed = false;
+            preview.textContent = displayValue;
+            main.textContent = displayValue;
+        } else if (value == 'delete') {
+            displayValue = displayValue.slice(0, -1);
+            main.textContent = displayValue;
+        }
     });
 });
